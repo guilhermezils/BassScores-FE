@@ -10,15 +10,15 @@ import { clearCartSuccess } from '../actions/order_items';
 import "./styling.css";
 import {CardElement, useStripe, useElements} from '@stripe/react-stripe-js';
 
-const CARD_OPTIONS = {
+// const CARD_OPTIONS = {
     
-  };
+//   };
 
-const CardField = ({onChange}) => (
-    <div >
-      <CardElement options={CARD_OPTIONS} onChange={onChange} />
-    </div>
-  );
+// const CardField = ({onChange}) => (
+//     <div >
+//       <CardElement options={CARD_OPTIONS} onChange={onChange} />
+//     </div>
+//   );
 
 const Field = ({
     label,
@@ -52,10 +52,10 @@ const Cart = ({user, history, order_items, orderSubmitSuccess, clearCartSuccess}
 
     const stripe = useStripe();
     const elements = useElements();
-    const [error, setError] = useState(null);
-    const [cardComplete, setCardComplete] = useState(false);
-    const [processing, setProcessing] = useState(false);
-    const [paymentMethod, setPaymentMethod] = useState(null);
+    const [error] = useState(null); //setError
+    // const [cardComplete, setCardComplete] = useState(false);
+    const [processing] = useState(false); //setProcessing
+    // const [paymentMethod, setPaymentMethod] = useState(null);
     const [billingDetails, setBillingDetails] = useState({
         email: 'abcdefg@gmail.com',
         phone: '123-456-7890',
@@ -93,6 +93,7 @@ const Cart = ({user, history, order_items, orderSubmitSuccess, clearCartSuccess}
         let scorArr = order_items.map(scor => scor.score)
         return scorArr.map((score) => (
             <CartScores key={score.id} score={score} />
+            
         ))
     }
 

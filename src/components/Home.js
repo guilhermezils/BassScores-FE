@@ -9,16 +9,16 @@ import {compose} from "redux";
 import { withRouter } from "react-router";
 import {Link} from 'react-router-dom';
 
-const Home = ({user, history, loginSuccess}) => {
+const Home = ({user, history, loginSuccess}) => {//maybe add here??????? state???
 
     const [open, setOpen] = useState(false)
     const [username, setUsername] = useState("abcabc");
     const [password, setPassword] = useState("123123 ");
     const [error, setError] = useState([])
 
-    function validateForm() {
-        return username.length > 3 && password.length > 2;
-      }
+    // function validateForm() {
+    //     return username.length > 3 && password.length > 2;
+    //   }
 
     const handleSubmit = (e) => {
         e.preventDefault()

@@ -14,7 +14,7 @@ import {loadStripe} from '@stripe/stripe-js';
 const ELEMENTS_OPTIONS = {
   fonts: [
     {
-      // cssSrc: 'https://fonts.googleapis.com/css?family=Roboto',
+      cssSrc: 'https://fonts.googleapis.com/css?family=Roboto',
     },
   ],
 };
