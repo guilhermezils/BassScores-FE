@@ -1,3 +1,11 @@
+// const initialState = {
+//     token: localStorage.getItem('token'),
+//     isAuthenticated: localStorage.getItem('token') ? true : false, // or just !!localStorage.getItem('token')
+//     isLoading: false,
+//     isRegistered: false
+//  }
+
+
 const user = (state={}, action) => {
     switch(action.type) {
         case "LOGIN_SUCCESS":
