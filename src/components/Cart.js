@@ -98,7 +98,7 @@ const Cart = ({user, history, order_items, orderSubmitSuccess, clearCartSuccess}
     }
 
     const handleSubmit = async (event) => {
-        
+        // Block native form submission.
         event.preventDefault();
     
         if (!stripe || !elements) {

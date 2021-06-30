@@ -34,6 +34,7 @@ const Scores = ({user, score, addItemSuccess}) => {
             console.log(order_items)
             console.log(token)
             addItemSuccess(order_items)
+            console.log(currentUser(order_items.user))
             currentUser(order_items.user)
             alert(`${score.name} has been added to your cart`, {
                 duration: 2000

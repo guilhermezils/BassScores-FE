@@ -7,7 +7,7 @@ import { fetchOrderSuccess } from '../actions/order_items';
 import "./styling.css";
 
 const CartScores = ({score, order_items, removeItemSuccess, fetchOrderSuccess}) => {
-
+//find the item id
 let idArr = order_items.filter(obj => obj.score_id === score.id)
 let id = idArr[0].id
 
