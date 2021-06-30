@@ -14,11 +14,11 @@ import {CardElement, useStripe, useElements} from '@stripe/react-stripe-js';
     
 //   };
 
-// const CardField = ({onChange}) => (
-//     <div >
-//       <CardElement options={CARD_OPTIONS} onChange={onChange} />
-//     </div>
-//   );
+const CardField = ({onChange}) => (
+    <div >
+      <CardElement  onChange={onChange} />
+    </div>
+  );
 
 const Field = ({
     label,
@@ -52,8 +52,8 @@ const Cart = ({user, history, order_items, orderSubmitSuccess, clearCartSuccess}
 
     const stripe = useStripe();
     const elements = useElements();
-    const [error] = useState(null); //setError
-    // const [cardComplete, setCardComplete] = useState(false);
+    const [error, setError] = useState(null);
+    const [ setCardComplete] = useState(false);
     const [processing] = useState(false); //setProcessing
     // const [paymentMethod, setPaymentMethod] = useState(null);
     const [billingDetails, setBillingDetails] = useState({
@@ -98,18 +98,15 @@ const Cart = ({user, history, order_items, orderSubmitSuccess, clearCartSuccess}
     }
 
     const handleSubmit = async (event) => {
-        // Block native form submission.
+        
         event.preventDefault();
     
         if (!stripe || !elements) {
-          // Stripe.js has not loaded yet. Make sure to disable
-          // form submission until Stripe.js has loaded.
+          // Stripe.js has not loaded yet
           return;
         }
     
-        // Get a reference to a mounted CardElement. Elements knows how
-        // to find your CardElement because there can only ever be one of
-        // each type of element.
+ 
         const cardElement = elements.getElement(CardElement);
     
         const {error, paymentMethod} = await stripe.createPaymentMethod({
@@ -128,7 +125,7 @@ const Cart = ({user, history, order_items, orderSubmitSuccess, clearCartSuccess}
       };
 
       const createLog = () => {
-        // debugger
+        
         const reqObj = {
             method: 'POST',
             headers: {
@@ -205,6 +202,12 @@ const Cart = ({user, history, order_items, orderSubmitSuccess, clearCartSuccess}
                                 setBillingDetails({...billingDetails, email: e.target.value});
                                 }}
                             />
+                             <CardField
+                                onChange={(e) => {
+                                setError(e.error);
+                                setCardComplete(e.complete);
+                                }}
+                                />
                           
                          <h2 >Total: <a >${(order_items.length * 10).toFixed(2)}</a></h2>
                             {error && <ErrorMessage>{error.message}</ErrorMessage>}

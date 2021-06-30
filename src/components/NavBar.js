@@ -88,6 +88,18 @@ const NavBar = ({history, loginSuccess, logoutSuccess, user, location}) => {
         >
           <img /> Shop
         </Menu.Item>
+
+        {user.id ? 
+        <Menu.Item
+          name='View My Orders'
+          active={activeItem === 'View My Orders'}
+          onClick={handleItemClick}
+          as={Link}
+          to={'/order'}
+        >
+          View My Orders
+        </Menu.Item>
+        : null}
       
         <Menu.Item
           position="right"

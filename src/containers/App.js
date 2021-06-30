@@ -24,7 +24,7 @@ const ELEMENTS_OPTIONS = {
   ],
 };
 
-const stripePromise = loadStripe('pk_test_51HxJWiENcJehCUjak7wjjRu0nMn0iXFHBm2hWXduBt57uEeefBvLzy2Qi7f1XICqlCxYzs25zQfZkf210dnD4kTp00UNDcPTuj');
+const stripe = loadStripe('pk_test_51J8ACeBLWiIT7p5qOacNPcl3gpl0QSgBYGAZW3DnH7zyiX4NdlZqEDkHQR12ZBtcjgPxRlpIkBxXovQOpuqhAaKg00YcjSNvcA');
 
 const App = ({currentUser, fetchScoresSuccess, fetchOrderSuccess}) => {
 
@@ -83,10 +83,10 @@ const App = ({currentUser, fetchScoresSuccess, fetchOrderSuccess}) => {
           <Route exact path="/" component={Intro}/>
           <Route exact path="/home" component={Home}/>
           <Route exact path="/shop" component={Shop}/>
-          {/* <Route exact path='/order' component={ViewOrder}/> */}
+          <Route exact path='/order' component={ViewOrder}/>
           <Route exact path='/signup' component={Signup}/>
           <div className="AppWrapper">
-          <Elements stripe={stripePromise} options={ELEMENTS_OPTIONS}>
+          <Elements stripe={stripe} options={ELEMENTS_OPTIONS}>
               <Route exact path="/cart" component={Cart}/>
            </Elements>
            </div>
