@@ -1,4 +1,9 @@
 import React from 'react';
+import { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { fetchScoresSuccess } from '../actions/scores';
+import { fetchOrderSuccess } from '../actions/order_items';
+import { currentUser } from '../actions/user';
 import './App.css';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Intro from '../components/Intro'
@@ -21,7 +26,55 @@ const ELEMENTS_OPTIONS = {
 
 const stripePromise = loadStripe('pk_test_51HxJWiENcJehCUjak7wjjRu0nMn0iXFHBm2hWXduBt57uEeefBvLzy2Qi7f1XICqlCxYzs25zQfZkf210dnD4kTp00UNDcPTuj');
 
-const App = () => {
+const App = ({currentUser, fetchScoresSuccess, fetchOrderSuccess}) => {
+
+
+
+  useEffect(() => {
+    const token = localStorage.getItem('app_token')
+    console.log(token)
+    if (!token){
+      fetch("http://localhost:3000/scores")
+      .then(resp => resp.json())
+      .then(scores => {
+          fetchScoresSuccess(scores)
+           })
+    } else {
+      const reqObj = {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+      }
+ 
+      fetch('http://localhost:3000/current_session', reqObj)
+      .then(resp => resp.json())
+      .then(data => {
+        if (data.user) {
+          currentUser(data.user)
+      
+      fetch("http://localhost:3000/scores")
+      .then(resp => resp.json())
+      .then(scores => {
+          fetchScoresSuccess(scores)
+           })
+           fetch("http://localhost:3000/order_items")
+      .then(resp => resp.json())
+      .then(order_items => {
+        // fetchOrderSuccess(order_items)
+           })
+         }
+        })
+    }}, [])
+
+
+
+
+
+
+
+
+
   return (
     <BrowserRouter>
       <div className="App">
@@ -30,7 +83,7 @@ const App = () => {
           <Route exact path="/" component={Intro}/>
           <Route exact path="/home" component={Home}/>
           <Route exact path="/shop" component={Shop}/>
-          <Route exact path='/order' component={ViewOrder}/>
+          {/* <Route exact path='/order' component={ViewOrder}/> */}
           <Route exact path='/signup' component={Signup}/>
           <div className="AppWrapper">
           <Elements stripe={stripePromise} options={ELEMENTS_OPTIONS}>
@@ -41,6 +94,19 @@ const App = () => {
       </div>
     </BrowserRouter>
    );
+};
+
+
+const mapStateToProps = (state) => {
+  return {
+     user: state.user,
+      scores: state.scores
+  }
 }
 
-export default App;
+const mapDispatchToProps = {
+  fetchScoresSuccess,
+  currentUser
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

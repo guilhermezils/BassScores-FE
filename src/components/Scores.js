@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import "./styling.css";
 import Cart from './Cart';
+import { currentUser } from '../actions/user';
 
 const Scores = ({user, score, addItemSuccess}) => {
 
@@ -15,10 +16,12 @@ const Scores = ({user, score, addItemSuccess}) => {
     }
 
     const addToCart = () => {
+        const token = localStorage.getItem('app_token')
         const reqObj = {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
                 user_id: user.id,
@@ -29,7 +32,9 @@ const Scores = ({user, score, addItemSuccess}) => {
         .then(resp => resp.json())
         .then(order_items => {
             console.log(order_items)
+            console.log(token)
             addItemSuccess(order_items)
+            currentUser(order_items.user)
             alert(`${score.name} has been added to your cart`, {
                 duration: 2000
               })
@@ -68,7 +73,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-    addItemSuccess
+    addItemSuccess,
+    currentUser
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Scores)

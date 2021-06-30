@@ -2,10 +2,11 @@ import React from 'react';
 import { Card, Button } from 'semantic-ui-react'
 import { removeItemSuccess } from '../actions/order_items'
 import { connect } from 'react-redux';
+import { fetchOrderSuccess } from '../actions/order_items';
 
 import "./styling.css";
 
-const CartScores = ({score, order_items, removeItemSuccess}) => {
+const CartScores = ({score, order_items, removeItemSuccess, fetchOrderSuccess}) => {
 
 let idArr = order_items.filter(obj => obj.score_id === score.id)
 let id = idArr[0].id
@@ -27,12 +28,12 @@ let id = idArr[0].id
     }
 
     return (
-        <Card style={{width: "600px", border:"1px solid pink"}} centered>
+        <Card style={{width: "600px", border:"1px"}} centered>
             <Card.Content>
                 <Card.Header style={{fontSize: "20px", color: "black"}}>
                     {score.name}
                 </Card.Header>
-                <Card.Meta style={{paddingTop:"5px", fontSize: "15px", color: "slategrey"}}>
+                <Card.Meta style={{paddingTop:"5px", fontSize: "15px"}}>
                      {score.cost}
                      <Button 
                      onClick={removeItem} 

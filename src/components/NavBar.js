@@ -23,9 +23,9 @@ const NavBar = ({history, loginSuccess, logoutSuccess, user, location}) => {
 
     const { activeItem } = menuState
 
-    function validateForm() {
-      return username.length > 3 && password.length > 2;
-    }
+    // function validateForm() {
+    //   return username.length > 3 && password.length > 2;
+    // }
 
   const handleSubmit = (e) => {
     

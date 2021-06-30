@@ -9,11 +9,11 @@ import {compose} from "redux";
 import { withRouter } from "react-router";
 import {Link} from 'react-router-dom';
 
-const Home = ({user, history, loginSuccess}) => {//maybe add here??????? state???
+const Home = ({user, history, loginSuccess}) => {
 
     const [open, setOpen] = useState(false)
-    const [username, setUsername] = useState("abcabc");
-    const [password, setPassword] = useState("123123 ");
+    const [username, setUsername] = useState("gui");
+    const [password, setPassword] = useState("123 ");
     const [error, setError] = useState([])
 
     // function validateForm() {

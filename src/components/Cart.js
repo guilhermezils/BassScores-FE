@@ -136,7 +136,7 @@ const Cart = ({user, history, order_items, orderSubmitSuccess, clearCartSuccess}
             },
             body: JSON.stringify({
                 user_id: user.id,
-                total: (order_items.length * 1.85).toFixed(2),
+                total: (order_items.length * 10).toFixed(2),
                 items: (order_items.map(order => order.score.name)).join(', ')
             })
         }
@@ -206,7 +206,7 @@ const Cart = ({user, history, order_items, orderSubmitSuccess, clearCartSuccess}
                                 }}
                             />
                           
-                         <h2 >Total: <a >${(order_items.length * 1.85).toFixed(2)}</a></h2>
+                         <h2 >Total: <a >${(order_items.length * 10).toFixed(2)}</a></h2>
                             {error && <ErrorMessage>{error.message}</ErrorMessage>}
                             <SubmitButton processing={processing} error={error} disabled={!stripe}>
                                 Place Order
