@@ -25,6 +25,7 @@ const Shop = ({currentUser, scores, fetchScoresSuccess}) => {
             'Authorization': `Bearer ${token}`
           },
         }
+   
         fetch('http://localhost:3000/current_session', reqObj)
         .then(resp => resp.json())
         .then(data => {
