@@ -1,11 +1,13 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Container, Button, Form } from 'semantic-ui-react';
-
-import CartScores from './CartScores'
+import { fetchUserSuccess } from '../actions/user';
+import { fetchOrderSuccess} from '../actions/order_items';
+import CartScores from './CartScores';
 import { orderSubmitSuccess } from '../actions/order';
 import { clearCartSuccess } from '../actions/order_items';
+import { currentUser } from '../actions/user';
 
 import "./styling.css";
 import {CardElement, useStripe, useElements} from '@stripe/react-stripe-js';
@@ -48,7 +50,7 @@ const Field = ({
     </div>
   );
 
-const Cart = ({user, history, order_items, orderSubmitSuccess, clearCartSuccess}) => {
+const Cart = ({user, currentUser, history, order_items, orderSubmitSuccess, clearCartSuccess, fetchUserSuccess, fetchOrderSuccess}) => {
 
     const stripe = useStripe();
     const elements = useElements();
@@ -89,16 +91,51 @@ const Cart = ({user, history, order_items, orderSubmitSuccess, clearCartSuccess}
         </div>
       );
 
+
+
+
+      useEffect(() => {
+          const token = localStorage.getItem('app_token')
+          console.log(token)
+          if (!token){
+            history.push('/login')
+          } else {
+            const reqObj = {
+              method: 'GET',
+              headers: {
+                'Authorization': `Bearer ${token}`
+              },
+            }
+            fetch('http://localhost:3000/current_session', reqObj)
+        .then(resp => resp.json())
+        .then(data => {
+          if (data.user) {
+            currentUser(data.user)
+
+
+            fetch(`http://localhost:3000/order_items`)
+            .then(resp => resp.json())
+            .then(orderObj => {
+                fetchOrderSuccess(orderObj)
+                console.log(fetchOrderSuccess(orderObj))
+            })
+          }}
+        )
+          }
+        }, [])
+            
+
+
+//old way
     const renderOrder = () => {
-        let scorArr = order_items.map(scor => scor.score)
+      let scorArr = order_items.map(scor => scor.score)
         return scorArr.map((score) => (
-            <CartScores key={score.id} score={score} />
+            <CartScores key={score.name} score={score} />
             
         ))
     }
 
     const handleSubmit = async (event) => {
-        // Block native form submission.
         event.preventDefault();
     
         if (!stripe || !elements) {
@@ -214,6 +251,10 @@ const Cart = ({user, history, order_items, orderSubmitSuccess, clearCartSuccess}
                             <SubmitButton processing={processing} error={error} disabled={!stripe}>
                                 Place Order
                             </SubmitButton>
+                            <SubmitButton    //stop propagation//    
+                            >
+                                Clear Cart
+                            </SubmitButton>
                         </Form>
                     </Container>
                 </Grid.Column>
@@ -233,7 +274,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   orderSubmitSuccess,
-    clearCartSuccess
+    clearCartSuccess,
+    fetchUserSuccess,
+    fetchOrderSuccess,
+    currentUser
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart)
