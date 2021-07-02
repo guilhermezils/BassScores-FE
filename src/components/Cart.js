@@ -8,6 +8,7 @@ import CartScores from './CartScores';
 import { orderSubmitSuccess } from '../actions/order';
 import { clearCartSuccess } from '../actions/order_items';
 import { currentUser } from '../actions/user';
+import { removeItemSuccess } from '../actions/order_items'
 
 import "./styling.css";
 import {CardElement, useStripe, useElements} from '@stripe/react-stripe-js';
@@ -50,7 +51,7 @@ const Field = ({
     </div>
   );
 
-const Cart = ({user, currentUser, history, order_items, orderSubmitSuccess, clearCartSuccess, fetchUserSuccess, fetchOrderSuccess}) => {
+const Cart = ({user, currentUser, history, order_items, orderSubmitSuccess, clearCartSuccess, fetchUserSuccess, fetchOrderSuccess, score, removeItemSuccess}) => {
 
     const stripe = useStripe();
     const elements = useElements();
@@ -64,6 +65,33 @@ const Cart = ({user, currentUser, history, order_items, orderSubmitSuccess, clea
         name: 'abcdefg',
       });
         
+
+
+      // let idArr = order_items.filter(obj => obj.score_id === score.id)
+      // let id = idArr[0].id
+      
+      
+      
+      
+          const removeItems = () => {
+              const reqObj = {
+                  method: 'DELETE', 
+                }
+                
+                fetch (`http://localhost:3000/order_items/user_id=${user.id}`, reqObj)
+                .then(resp => resp.json())
+                .then(data => {
+                    console.log(data)
+                  removeItemSuccess(score.id)
+                  
+              })
+          }
+
+
+
+
+
+
   const SubmitButton = ({processing, error, children, disabled}) => (
     <Button  
      
@@ -117,6 +145,7 @@ const Cart = ({user, currentUser, history, order_items, orderSubmitSuccess, clea
             .then(resp => resp.json())
             .then(orderObj => {
                 fetchOrderSuccess(orderObj)
+                console.log(data.user)
                 console.log(fetchOrderSuccess(orderObj))
             })
           }}
@@ -181,7 +210,7 @@ const Cart = ({user, currentUser, history, order_items, orderSubmitSuccess, clea
             orderSubmitSuccess(order)
             alert(`Your order has been placed!`, {
                 duration: 2000
-              })
+              })              
             clearCartSuccess()
         })
     }
@@ -248,13 +277,13 @@ const Cart = ({user, currentUser, history, order_items, orderSubmitSuccess, clea
                           
                          <h2 >Total: <a >${(order_items.length * 10).toFixed(2)}</a></h2>
                             {error && <ErrorMessage>{error.message}</ErrorMessage>}
-                            <SubmitButton processing={processing} error={error} disabled={!stripe}>
+                            <SubmitButton processing={processing} error={error} disabled={!stripe} onClick={removeItems} >
                                 Place Order
                             </SubmitButton>
-                            <SubmitButton    //stop propagation//    
+                            {/* <SubmitButton    //stop propagation//    
                             >
                                 Clear Cart
-                            </SubmitButton>
+                            </SubmitButton> */}
                         </Form>
                     </Container>
                 </Grid.Column>
@@ -277,7 +306,8 @@ const mapDispatchToProps = {
     clearCartSuccess,
     fetchUserSuccess,
     fetchOrderSuccess,
-    currentUser
+    currentUser,
+    removeItemSuccess
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart)

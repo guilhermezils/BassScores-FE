@@ -26,5 +26,6 @@ export const addItemSuccess = (order_items) => {
     // debugger
     return {
         type: 'CLEAR_CART_SUCCESS',
+        // order_items: order_items
     }
   }

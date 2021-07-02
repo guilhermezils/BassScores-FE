@@ -91,6 +91,7 @@ const NavBar = ({history, loginSuccess, logoutSuccess, user, location}) => {
 
         {user.id ? 
         <Menu.Item
+          // position="right"
           name='View My Orders'
           active={activeItem === 'View My Orders'}
           onClick={handleItemClick}
@@ -111,6 +112,8 @@ const NavBar = ({history, loginSuccess, logoutSuccess, user, location}) => {
         >
           Cart
         </Menu.Item>
+
+
         {!user.id ?
         <Modal
         onClose={() => setOpen(false)}

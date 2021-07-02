@@ -37,7 +37,7 @@ let id = idArr[0].id
                     {score.name}
                 </Card.Header>
                 <Card.Meta style={{paddingTop:"5px", fontSize: "15px"}}>
-                     {score.cost}
+                     $ {score.cost}
                      <Button 
                      onClick={removeItem} 
                      size="tiny" style={{float:"right", width:"5px", paddingTop:"6px", paddingLeft:"9px"}}><i aria-hidden="true" className="x icon"></i></Button>
