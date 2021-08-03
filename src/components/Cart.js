@@ -13,9 +13,7 @@ import { removeItemSuccess } from '../actions/order_items'
 import "./styling.css";
 import {CardElement, useStripe, useElements} from '@stripe/react-stripe-js';
 
-// const CARD_OPTIONS = {
-    
-//   };
+
 
 const CardField = ({onChange}) => (
     <div >
@@ -168,7 +166,7 @@ const Cart = ({user, currentUser, history, order_items, orderSubmitSuccess, clea
         event.preventDefault();
     
         if (!stripe || !elements) {
-          // Stripe.js has not loaded yet
+          // Stripe.js has not loaded yet it needs to be used through HTTPS
           return;
         }
     
