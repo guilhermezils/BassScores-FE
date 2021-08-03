@@ -3,7 +3,7 @@ const initialState = []
 const order_items = (state=initialState, action) => {
     switch(action.type) {
         case "FETCH_ORDER_SUCCESS":
-            // debugger
+            
               return [...action.order_items]
         case "ADD_ITEM_SUCCESS":
             return [...state, action.order_items]
